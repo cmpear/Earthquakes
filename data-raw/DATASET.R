@@ -8,7 +8,9 @@ library(stringr)
 library(tibble)
 
 tremors <- read_delim("C:\\Users\\Christopher\\Documents\\R\\Earthquakes\\data\\quakes.txt", delim = '\t',
-                     col_types = "ccnnnnncccccccccccccccccccccccccccccccccccccccc")
+                     col_types = "ccnnnnnnnnnnnnnnncccnnnnnnnnnnnnnnnnnnnnnnnnnnn")
+#                                     5   10   15   20
+#                    col_types = "ccnnnnncccccccccccccccccccccccccccccccccccccccc")
 # having parsing errors, so will take in as char and convert to numeric later
 
 # A date column created by uniting the year, month, day and converting it to the Date class
