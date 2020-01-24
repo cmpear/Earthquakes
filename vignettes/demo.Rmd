@@ -80,3 +80,6 @@ dplyr::filter(COUNTRY == "JAPAN", YEAR >= 2010) %>%
 Earthquakes::eq_map(annot_col = "popup_text")
 m
 ```
+
+## Conclusion
+  Thank you very much for viewing my package vignette.  I hope you have found it useful.
