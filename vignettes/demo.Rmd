@@ -57,9 +57,9 @@ tremors %>%
 
 ```{r}
 tremors %>% 
-  filter(DATE >= lubridate::years(2000) ) %>%
-  filter(COUNTRY %in% c('CHINA','JAPAN','KOREA')) %>%
-  select(DATE, COUNTRY, LOCATION_NAME, EQ_PRIMARY, DEATHS) %>%
-  ggplot(aes(x = DATE, y = as.factor(COUNTRY), labels = LOCATION_NAME, size = EQ_PRIMARY, col = DEATHS, n_max = 5)) + Earthquakes::geom_timeline() + Earthquakes:::geom_timeline_label()
+  dplyr::filter(DATE >= lubridate::years(2000) ) %>%
+  dplyr::filter(COUNTRY %in% c('CHINA','JAPAN','KOREA')) %>%
+  dplyr::select(DATE, COUNTRY, LOCATION_NAME, EQ_PRIMARY, DEATHS) %>%
+  ggplot(aes(x = DATE, y = as.factor(COUNTRY), labels = LOCATION_NAME, size = EQ_PRIMARY, col = DEATHS, n_max = 4)) + Earthquakes::geom_timeline() + Earthquakes:::geom_timeline_label()
 ```
 

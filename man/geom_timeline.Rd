@@ -73,8 +73,3 @@ a timeline with points representing quakes
 \description{
 creates a timeline from quake data.  Goes wtih ggproto GeomTimeline
 }
-\examples{
-tremors <- eq_get_data()
-          ggplot(data = tremors[1000:1050,], aes(x = DATE, y = as.factor(COUNTRY),labels = COUNTRY,size = INTENSITY,color = DEATHS, alpha = 0.5)) +
-            geom_timeline()
-}

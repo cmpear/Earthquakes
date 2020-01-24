@@ -49,9 +49,6 @@ GeomTimeline <- ggproto("GeomTimeline", Geom,
 #' @return a timeline with points representing quakes
 #' @export
 #' @importFrom ggplot2 layer
-#' @examples tremors <- eq_get_data()
-#'           ggplot(data = tremors[1000:1050,], aes(x = DATE, y = as.factor(COUNTRY),labels = COUNTRY,size = INTENSITY,color = DEATHS, alpha = 0.5)) +
-#'             geom_timeline()
 geom_timeline <- function(mapping = NULL, data = NULL, stat = 'identity',
                           position = 'identity', na.rm = FALSE,
                           show.legend = NA, inherit.aes = TRUE, ...) {
@@ -67,7 +64,6 @@ geom_timeline <- function(mapping = NULL, data = NULL, stat = 'identity',
 
 #' geom_timeline_label
 #' @description creates labels for geom_timeline.  Goes with ggproto GeomTimelineLabel
-#' @inheritParams ggplot2::stat_identity
 #' @param stat argument for calling ggplot2::layer, defaults to 'identity', a statistical transformation to be applied to the data
 #' @param na.rm whether to remove NAs from the data.  Defaults to FALSE
 #' @param x the dates for the timeline
@@ -87,15 +83,12 @@ GeomTimelineLabel <- ggproto("GeomTimelineLabel", Geom,
                              draw_key = draw_key_blank,
                              draw_panel = function(data, panel_scales, coord){
                                coords <- coord$transform(data, panel_scales)
-                               print(str(coords))
-                               print('howdy')
                                if (!all(is.na(coords$size))){
                                  ranks <- rank(coords$size, ties.method = 'random')
                                  coords <- coords[ranks <= data$n_max[1],]
                                }
                                coords <- coords[sample(1:length(coords$size),data$n_max[1]),]
                                segLength <- 1 / (5*(1 + max(coords$y, na.rm = TRUE)))
-                               print(coords)
                                seg <- grid::segmentsGrob(x0 = coords$x, x1 = coords$x, y0 = coords$y, y1 = coords$y + segLength, default.units='npc')
                                t <- grid::textGrob(label = coords$label, x = coords$x, y = coords$y + segLength, just = 'left', rot = 45, default.units = 'npc')
                                rValue<- gTree(children = gList(seg, t))
