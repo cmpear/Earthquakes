@@ -103,7 +103,8 @@ GeomTimelineLabel <- ggproto("GeomTimelineLabel", Geom,
 #'   dplyr::filter(COUNTRY %in% c('CHINA','JAPAN','KOREA')) %>%
 #'   dplyr::select(DATE, COUNTRY, LOCATION_NAME, EQ_PRIMARY, DEATHS) %>%
 #'   dplyr::mutate(COUNTRY = as.factor(COUNTRY)) %>%
-#'   ggplot(aes(x = DATE, y = COUNTRY, labels = LOCATION_NAME, size = EQ_PRIMARY, col = DEATHS, n_max = 4)) +
+#'   ggplot(aes(x = DATE, y = COUNTRY, labels = LOCATION_NAME,
+#'    size = EQ_PRIMARY, col = DEATHS, n_max = 4)) +
 #'    Earthquakes::geom_timeline() + Earthquakes:::geom_timeline_label()
 geom_timeline_label <- function(mapping = NULL, data = NULL, stat = 'identity',
                                 position = 'identity', na.rm = FALSE,

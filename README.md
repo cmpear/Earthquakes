@@ -8,4 +8,4 @@ This package has the raw quake data from the NOAA stored as a text file in /inst
 # Create geom_timeline and geom_timeline_labels
 This package has two geoms for creating a timeline visualizing the quake data.  It also supports creating several timelines simultaneously by including a y variable in the aesthetics.  The labels geom simply adds labels to a n_max cases from the data (the n_max largest or random).
 # Creates a map file for visualizing quake data
-This package also includes an interacting mapping function using leaflet for visualizing quake data geospatially.
+This package also includes an interacting mapping function using leaflet for visualizing geospatial quake data.
