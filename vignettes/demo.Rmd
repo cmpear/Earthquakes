@@ -32,13 +32,13 @@ head(tremors)
 ```{r retrieve raw data}
 Earthquakes::eq_get_data_raw() %>% head()
 ```
-```{r}
+```{r retrieve and clean data}
 Earthquakes::eq_get_data_raw() %>%
   Earthquakes::eq_clean_data() %>%
   Earthquakes::eq_location_clean() %>%
   head()
 ```
-```{r}
+```{r use single function to do same task}
 Earthquakes::eq_get_data() %>%
   head()
 ```
@@ -47,23 +47,25 @@ Earthquakes::eq_get_data() %>%
   Three new geoms for use wtih ggplot2 are included.  The first two are geom_timeline() and geom_timeline_labels, which respectively build a timeline with quake data and add labels to it.  Aethetics can be set so that color and size vary with such variables as INTENSITY and TOTAL_DAMAGE_MILLSIONS_DOLLARS.  With geom_timeline_label() one can add an additional aesthetic, n_max, which limits how many labels to include.
   The third geom is for geospatial mapping
   
-```{r}
+```{r display geomtimeline}
 tremors %>% 
   dplyr::filter(YEAR >=2000 ) %>%
   dplyr::filter(COUNTRY %in% c('CANADA','MEXICO', 'JAPAN')) %>%
   dplyr::select(DATE, COUNTRY, EQ_PRIMARY, DEATHS) %>%
-  ggplot(aes(x = DATE, y = as.factor(COUNTRY), size = EQ_PRIMARY, col = DEATHS)) + geom_timeline()
+  dplyr::mutate(COUNTRY = as.factor(COUNTRY)) %>%
+  ggplot(aes(x = DATE, y = COUNTRY, size = EQ_PRIMARY, col = DEATHS)) + geom_timeline()
 ```
 
-```{r}
+```{r display geomtimeline w/ labels}
 tremors %>% 
   dplyr::filter(YEAR >= 2000 ) %>%
   dplyr::filter(COUNTRY %in% c('CHINA','JAPAN','KOREA')) %>%
   dplyr::select(DATE, COUNTRY, LOCATION_NAME, EQ_PRIMARY, DEATHS) %>%
-  ggplot(aes(x = DATE, y = as.factor(COUNTRY), labels = LOCATION_NAME, size = EQ_PRIMARY, col = DEATHS, n_max = 4)) + Earthquakes::geom_timeline() + Earthquakes:::geom_timeline_label()
+  dplyr::mutate(COUNTRY = as.factor(COUNTRY)) %>%
+  ggplot(aes(x = DATE, y = COUNTRY, labels = LOCATION_NAME, size = EQ_PRIMARY, col = DEATHS, n_max = 4)) + Earthquakes::geom_timeline() + Earthquakes:::geom_timeline_label()
 ```
 
-```{r}
+```{r display eq_map visualization}
 m<-tremors %>%
 dplyr::select(COUNTRY, LATITUDE, LONGITUDE, EQ_PRIMARY, DATE, YEAR, DEATHS) %>%
 dplyr::filter(COUNTRY == "MEXICO", YEAR >= 2000) %>%
@@ -71,11 +73,10 @@ Earthquakes::eq_map(annot_col = "DATE")
 m
 ```
 
-```{r}
+```{r display eq_map visualization with more popup data}
 m<-tremors %>%
 dplyr::select(COUNTRY, LATITUDE, LONGITUDE, EQ_PRIMARY, DATE, YEAR, DEATHS) %>%
 dplyr::filter(COUNTRY == "JAPAN", YEAR >= 2010) %>%
 Earthquakes::eq_map(annot_col = "popup_text")
 m
 ```
-

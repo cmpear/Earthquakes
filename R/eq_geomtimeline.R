@@ -33,8 +33,8 @@ draw_timeline_panel<- function(data, panel_scales, coord){
 
 GeomTimeline <- ggproto("GeomTimeline", Geom,
                         required_aes = c('x'),
-                        default_aes = aes(y = 0L, colour = 'red',size = 1, alpha = 1),
-                        draw_key = draw_key_polygon,
+                        default_aes = aes(y = 0L, colour = 'grey',size = 1, alpha = 1),
+                        draw_key = draw_key_point,
                         draw_panel = draw_timeline_panel)
 
 #' geom_timeline
