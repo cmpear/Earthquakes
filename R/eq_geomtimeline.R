@@ -8,21 +8,23 @@
 #' @importFrom grid gTree
 #' @importFrom grid gList
 #' @importFrom grid gpar
+#' @importFrom grid unit
+#' @importFrom scales alpha
+#' @importFrom grDevices rgb
 #' @return timeline with points
 draw_timeline_panel<- function(data, panel_scales, coord){
   coords <- coord$transform(data, panel_scales)
-  print(str(coords))
   length <- max(coords$x) - min(coords$x)
   horizontal <- coords$y
   seg <- grid::segmentsGrob(x0 = min(coords$x), x1 = max(coords$x),
                             y0 = horizontal, y1 = horizontal,
   )
-  coords$colour[is.na(coords$colour)] <- rgb(0.5,0,0)
+  coords$colour[is.na(coords$colour)] <- grDevices::rgb(0.5,0,0)
   p <- grid::pointsGrob(x = coords$x,
                         y = horizontal,
-                        size = unit(2 * coords$size/(max(coords$size, na.rm=TRUE)), "char"),
+                        size = grid::unit(2 * coords$size/(max(coords$size, na.rm=TRUE)), "char"),
                         pch= 21,
-                        gp = grid::gpar(col = coords$colour, fill = alpha(coords$colour, 0.5)),
+                        gp = grid::gpar(col = coords$colour, fill = scales::alpha(coords$colour, 0.5)),
                         vp = NULL)
   t <- grid::gTree(children = grid::gList(seg, p))
   return(t)
@@ -76,6 +78,8 @@ geom_timeline <- function(mapping = NULL, data = NULL, stat = 'identity',
 #' @return a graphical value containing labels and line-segments
 #' @export
 #' @importFrom ggplot2 layer
+#' @importFrom grid textGrob
+#' @importFrom grid segmentsGrob
 
 GeomTimelineLabel <- ggproto("GeomTimelineLabel", Geom,
                              required_aes = c('x'),
@@ -92,8 +96,8 @@ GeomTimelineLabel <- ggproto("GeomTimelineLabel", Geom,
                                coords <- coords[sample(1:length(coords$size),data$n_max[1]),]
                                segLength <- 1 / (5*(1 + max(coords$y, na.rm = TRUE)))
                                print(coords)
-                               seg <- segmentsGrob(x0 = coords$x, x1 = coords$x, y0 = coords$y, y1 = coords$y + segLength, default.units='npc')
-                               t <- textGrob(label = coords$label, x = coords$x, y = coords$y + segLength, just = 'left', rot = 45, default.units = 'npc')
+                               seg <- grid::segmentsGrob(x0 = coords$x, x1 = coords$x, y0 = coords$y, y1 = coords$y + segLength, default.units='npc')
+                               t <- grid::textGrob(label = coords$label, x = coords$x, y = coords$y + segLength, just = 'left', rot = 45, default.units = 'npc')
                                rValue<- gTree(children = gList(seg, t))
                                return(rValue)
                              })

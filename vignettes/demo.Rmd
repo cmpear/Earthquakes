@@ -1,0 +1,65 @@
+---
+title: "demo"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{demo}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(Earthquakes)
+```
+# The Earthquakes Package
+This package is designed to assist in analyzing and vizualizing earthquake data from the National Oceanic and Atmospheric Administration.
+
+## Cleaning Included Data
+  This package contains cleaned data in two formats.  The first is a raw tab-delimited file called quakes.txt within the directory ~/inst/extdata; and the second is as an .rda named tremors in the data folder.  Unfortunately, there is already a built-in quakes datafile in R, so do not let that confuse you (also the reason for using 'tremors'.  If you prefer to start with the raw data, several functions are already available to assist you in doing this.
+  The eq_get_data_raw() function gives easy access to the raw data.  The eq_clean_data() adds a date column and sets the latitude and longitude columns to type numeric; while the eq_location_clean() function simplifies the LOCATION_NAME column so that it does not include the country, which is its own column already.
+  The eq_get_data() combins all three of the above functions--but again, all are already included as tremors.rda.
+
+
+```{r look at builtin tremors dataset}
+head(tremors)
+```
+```{r retrieve raw data}
+Earthquakes::eq_get_data_raw() %>% head()
+```
+```{r}
+Earthquakes::eq_get_data_raw() %>%
+  Earthquakes::eq_clean_data() %>%
+  Earthquakes::eq_location_clean() %>%
+  head()
+```
+```{r}
+Earthquakes::eq_get_data() %>%
+  head()
+```
+
+## Visualizing the Data
+  Three new geoms for use wtih ggplot2 are included.  The first two are geom_timeline() and geom_timeline_labels, which respectively build a timeline with quake data and add labels to it.  Aethetics can be set so that color and size vary with such variables as INTENSITY and TOTAL_DAMAGE_MILLSIONS_DOLLARS.  With geom_timeline_label() one can add an additional aesthetic, n_max, which limits how many labels to include.
+  The third geom is for geospatial mapping
+  
+```{r}
+tremors %>% 
+  dplyr::filter(DATE >= lubridate::years(2000) ) %>%
+  dplyr::filter(COUNTRY %in% c('CANADA','MEXICO', 'JAPAN')) %>%
+  dplyr::select(DATE, COUNTRY, EQ_PRIMARY, DEATHS) %>%
+  ggplot(aes(x = DATE, y = as.factor(COUNTRY), size = EQ_PRIMARY, col = DEATHS)) + geom_timeline()
+```
+
+```{r}
+tremors %>% 
+  filter(DATE >= lubridate::years(2000) ) %>%
+  filter(COUNTRY %in% c('CHINA','JAPAN','KOREA')) %>%
+  select(DATE, COUNTRY, LOCATION_NAME, EQ_PRIMARY, DEATHS) %>%
+  ggplot(aes(x = DATE, y = as.factor(COUNTRY), labels = LOCATION_NAME, size = EQ_PRIMARY, col = DEATHS, n_max = 5)) + Earthquakes::geom_timeline() + Earthquakes:::geom_timeline_label()
+```
+

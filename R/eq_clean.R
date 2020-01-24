@@ -7,12 +7,13 @@
 
 
 #' eq_get_data_raw
-#' @description reads data from quakes.txt file and returns it. Not exported
+#' @description reads data from quakes.txt file and returns it.
 #' @importFrom readr read_delim
+#' @export
 #' @return a tibble
 eq_get_data_raw <- function(){
-  return(readr::read_delim("C:\\Users\\Christopher\\Documents\\R\\Earthquakes\\inst\\extdata\\quakes.txt", delim = '\t',
-                           col_types = "ccnnnnnnnnnnnnnnncccnnnnnnnnnnnnnnnnnnnnnnnnnnn"))
+  return(readr::read_delim(system.file('extdata','quakes.txt', package = 'Earthquakes'),
+                           delim = '\t', col_types = 'ccnnnnnnnnnnnnnnncccnnnnnnnnnnnnnnnnnnnnnnnnnnn'))
 }
 
 #' ymd_bc
@@ -49,6 +50,7 @@ ymd_bc <- function(date,...){
 #' eq_clean_data
 #' @description given quake data read from quakes.txt, adds DATE column
 #' @param data quake.txt data to be cleaned
+#' @export
 #' @importFrom dplyr mutate
 #' @importFrom dplyr select
 #' @importFrom lubridate ymd
@@ -97,6 +99,7 @@ RemoveBefore <- function(str,rmv){
 #' eq_location_clean
 #' @description given strings of location name, removes everything before the ':'
 #' @param data quake data--designed for builtin dataset
+#' @export
 #' @importFrom dplyr mutate
 #' @return quake data with cleaned location names
 eq_location_clean <- function(data){

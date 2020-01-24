@@ -10,5 +10,5 @@ eq_get_data_raw()
 a tibble
 }
 \description{
-reads data from quakes.txt file and returns it. Not exported
+reads data from quakes.txt file and returns it.
 }
