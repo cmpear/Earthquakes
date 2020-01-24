@@ -17,3 +17,10 @@ a map (using leaflet) with the appropriate quake locations
 \description{
 creates a map marking the locations of earthquakes of the builtin tremors dataset
 }
+\examples{
+m<-tremors \%>\%
+   dplyr::select(COUNTRY, LATITUDE, LONGITUDE, EQ_PRIMARY, DATE, YEAR, DEATHS) \%>\%
+   dplyr::filter(COUNTRY == "JAPAN", YEAR >= 2010) \%>\%
+   Earthquakes::eq_map(annot_col = "popup_text")
+   m
+}

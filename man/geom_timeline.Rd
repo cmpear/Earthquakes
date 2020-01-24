@@ -68,3 +68,11 @@ creates a timeline from quake data.  Goes wtih ggproto GeomTimeline
 \note{
 aesthetics: x: dates for timeline; y: factor for timeline; colour: var for color; size: var for how large to make quakes on timeline
 }
+\examples{
+  tremors \%>\%
+    dplyr::filter(YEAR >=2000 ) \%>\%
+    dplyr::filter(COUNTRY \%in\% c('CANADA','MEXICO', 'JAPAN')) \%>\%
+    dplyr::select(DATE, COUNTRY, EQ_PRIMARY, DEATHS) \%>\%
+    dplyr::mutate(COUNTRY = as.factor(COUNTRY)) \%>\%
+    ggplot(aes(x = DATE, y = COUNTRY, size = EQ_PRIMARY, col = DEATHS)) + geom_timeline()
+}

@@ -9,3 +9,6 @@ eq_load_data()
 \description{
 saves quake data as tremors.rda in data folder. No return. No parameters. Not exported.
 }
+\note{
+DO NOT RUN!!! consider only if tremors.rda has a problem.  DO NOT RUN!!!  For setup purposes only!!!
+}

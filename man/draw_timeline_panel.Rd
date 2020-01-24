@@ -15,3 +15,6 @@ timeline with points
 \description{
 panel function for geom_timeline.  NOT EXPORTED
 }
+\note{
+this is not an exported function, and is not meant to be run outside of calls to geom_timeline(); accordingly, there is no example
+}

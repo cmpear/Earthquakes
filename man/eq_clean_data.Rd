@@ -12,3 +12,8 @@ eq_clean_data(data)
 \description{
 given quake data read from quakes.txt, adds DATE column
 }
+\examples{
+data <- Earthquakes::eq_get_data_raw() \%>\%
+  Earthquakes::eq_clean_data() \%>\%
+  Earthquakes::eq_location_clean()
+}

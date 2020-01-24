@@ -10,6 +10,12 @@
 #' @import tidyr
 #' @export
 #' @return a map (using leaflet) with the appropriate quake locations
+#' @examples
+#' m<-tremors %>%
+#'    dplyr::select(COUNTRY, LATITUDE, LONGITUDE, EQ_PRIMARY, DATE, YEAR, DEATHS) %>%
+#'    dplyr::filter(COUNTRY == "JAPAN", YEAR >= 2010) %>%
+#'    Earthquakes::eq_map(annot_col = "popup_text")
+#'    m
 
 eq_map <- function(data, annot_col = NA){
   if (annot_col == 'popup_text')
@@ -34,6 +40,7 @@ eq_map <- function(data, annot_col = NA){
 #' @description adds html <b> ... </b> to string
 #' @param str string to add html bolding to
 #' @return the bolded string
+#' @example Earthquakes:::Bold('howdy')
 Bold <- function(str){
   return(paste0('<b>',str,'</b>'))
 }

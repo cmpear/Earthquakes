@@ -31,3 +31,12 @@ creates labels for geom_timeline.  Goes with ggproto GeomTimelineLabel
 \note{
 aesthetics: x: dates for timeline; y: factor for multiple timelines; labels: labels to place; n_max: max number of labels--in order of size or random if size not included
 }
+\examples{
+tremors \%>\%
+  dplyr::filter(YEAR >= 2000 ) \%>\%
+  dplyr::filter(COUNTRY \%in\% c('CHINA','JAPAN','KOREA')) \%>\%
+  dplyr::select(DATE, COUNTRY, LOCATION_NAME, EQ_PRIMARY, DEATHS) \%>\%
+  dplyr::mutate(COUNTRY = as.factor(COUNTRY)) \%>\%
+  ggplot(aes(x = DATE, y = COUNTRY, labels = LOCATION_NAME, size = EQ_PRIMARY, col = DEATHS, n_max = 4)) +
+   Earthquakes::geom_timeline() + Earthquakes:::geom_timeline_label()
+}

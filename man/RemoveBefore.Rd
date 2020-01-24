@@ -17,3 +17,6 @@ string to return.  if is.na, returns 'ocrean', indicating that the quake occurre
 \description{
 removes all characters from string before pattern rmv
 }
+\note{
+NOT EXPORTED
+}

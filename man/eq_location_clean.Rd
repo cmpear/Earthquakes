@@ -15,3 +15,8 @@ quake data with cleaned location names
 \description{
 given strings of location name, removes everything before the ':'
 }
+\examples{
+data <- Earthquakes::eq_get_data_raw() \%>\%
+  Earthquakes::eq_clean_data() \%>\%
+  Earthquakes::eq_location_clean()
+}

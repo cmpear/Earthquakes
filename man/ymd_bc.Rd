@@ -14,3 +14,7 @@ ymd_bc(date, ...)
 \description{
 given a date in string format, returns a date in date format.  Works with BC.  Can handle lists
 }
+\examples{
+  test_data <- c('-2000 01 01', '500 05 30','1990 07 04')
+  Earthquakes:::ymd_bc(test_data)
+}

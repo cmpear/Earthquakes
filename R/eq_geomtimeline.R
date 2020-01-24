@@ -12,6 +12,7 @@
 #' @importFrom scales alpha
 #' @importFrom grDevices rgb
 #' @return timeline with points
+#' @note this is not an exported function, and is not meant to be run outside of calls to geom_timeline(); accordingly, there is no example
 draw_timeline_panel<- function(data, panel_scales, coord){
   coords <- coord$transform(data, panel_scales)
   length <- max(coords$x) - min(coords$x)
@@ -46,6 +47,13 @@ GeomTimeline <- ggproto("GeomTimeline", Geom,
 #' @return a timeline with points representing quakes
 #' @export
 #' @importFrom ggplot2 layer
+#' @examples
+#'   tremors %>%
+#'     dplyr::filter(YEAR >=2000 ) %>%
+#'     dplyr::filter(COUNTRY %in% c('CANADA','MEXICO', 'JAPAN')) %>%
+#'     dplyr::select(DATE, COUNTRY, EQ_PRIMARY, DEATHS) %>%
+#'     dplyr::mutate(COUNTRY = as.factor(COUNTRY)) %>%
+#'     ggplot(aes(x = DATE, y = COUNTRY, size = EQ_PRIMARY, col = DEATHS)) + geom_timeline()
 geom_timeline <- function(mapping = NULL, data = NULL, stat = 'identity',
                           position = 'identity', na.rm = FALSE,
                           show.legend = NA, inherit.aes = TRUE, ...) {
@@ -89,6 +97,14 @@ GeomTimelineLabel <- ggproto("GeomTimelineLabel", Geom,
 #' @importFrom ggplot2 layer
 #' @importFrom grid textGrob
 #' @importFrom grid segmentsGrob
+#' @examples
+#' tremors %>%
+#'   dplyr::filter(YEAR >= 2000 ) %>%
+#'   dplyr::filter(COUNTRY %in% c('CHINA','JAPAN','KOREA')) %>%
+#'   dplyr::select(DATE, COUNTRY, LOCATION_NAME, EQ_PRIMARY, DEATHS) %>%
+#'   dplyr::mutate(COUNTRY = as.factor(COUNTRY)) %>%
+#'   ggplot(aes(x = DATE, y = COUNTRY, labels = LOCATION_NAME, size = EQ_PRIMARY, col = DEATHS, n_max = 4)) +
+#'    Earthquakes::geom_timeline() + Earthquakes:::geom_timeline_label()
 geom_timeline_label <- function(mapping = NULL, data = NULL, stat = 'identity',
                                 position = 'identity', na.rm = FALSE,
                                 show.legend = NA, inherit.aes = TRUE, ...) {
