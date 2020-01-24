@@ -51,6 +51,7 @@ ymd_bc <- function(date,...){
 #' @description given quake data read from quakes.txt, adds DATE column
 #' @param data quake.txt data to be cleaned
 #' @export
+#' @import tidyr
 #' @importFrom dplyr mutate
 #' @importFrom dplyr select
 #' @importFrom lubridate ymd
@@ -101,6 +102,7 @@ RemoveBefore <- function(str,rmv){
 #' @param data quake data--designed for builtin dataset
 #' @export
 #' @importFrom dplyr mutate
+#' @import tidyr
 #' @return quake data with cleaned location names
 eq_location_clean <- function(data){
   data %>%
@@ -111,6 +113,7 @@ eq_location_clean <- function(data){
 #' eq_get_data
 #' @description reads data from quakes.txt, cleans data and location, then returns it
 #' @export
+#' @import tidyr
 #' @return a tibble of cleaned quake data
 eq_get_data <- function(){
   eq_get_data_raw() %>%

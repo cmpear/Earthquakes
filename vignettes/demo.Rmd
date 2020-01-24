@@ -49,7 +49,7 @@ Earthquakes::eq_get_data() %>%
   
 ```{r}
 tremors %>% 
-  dplyr::filter(DATE >= lubridate::years(2000) ) %>%
+  dplyr::filter(YEAR >=2000 ) %>%
   dplyr::filter(COUNTRY %in% c('CANADA','MEXICO', 'JAPAN')) %>%
   dplyr::select(DATE, COUNTRY, EQ_PRIMARY, DEATHS) %>%
   ggplot(aes(x = DATE, y = as.factor(COUNTRY), size = EQ_PRIMARY, col = DEATHS)) + geom_timeline()
@@ -57,9 +57,25 @@ tremors %>%
 
 ```{r}
 tremors %>% 
-  dplyr::filter(DATE >= lubridate::years(2000) ) %>%
+  dplyr::filter(YEAR >= 2000 ) %>%
   dplyr::filter(COUNTRY %in% c('CHINA','JAPAN','KOREA')) %>%
   dplyr::select(DATE, COUNTRY, LOCATION_NAME, EQ_PRIMARY, DEATHS) %>%
   ggplot(aes(x = DATE, y = as.factor(COUNTRY), labels = LOCATION_NAME, size = EQ_PRIMARY, col = DEATHS, n_max = 4)) + Earthquakes::geom_timeline() + Earthquakes:::geom_timeline_label()
+```
+
+```{r}
+m<-tremors %>%
+dplyr::select(COUNTRY, LATITUDE, LONGITUDE, EQ_PRIMARY, DATE, YEAR, DEATHS) %>%
+dplyr::filter(COUNTRY == "MEXICO", YEAR >= 2000) %>%
+Earthquakes::eq_map(annot_col = "DATE")
+m
+```
+
+```{r}
+m<-tremors %>%
+dplyr::select(COUNTRY, LATITUDE, LONGITUDE, EQ_PRIMARY, DATE, YEAR, DEATHS) %>%
+dplyr::filter(COUNTRY == "JAPAN", YEAR >= 2010) %>%
+Earthquakes::eq_map(annot_col = "popup_text")
+m
 ```
 

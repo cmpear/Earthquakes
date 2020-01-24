@@ -42,10 +42,7 @@ GeomTimeline <- ggproto("GeomTimeline", Geom,
 #' @inheritParams ggplot2::stat_identity
 #' @param stat argument for calling ggplot2::layer, defaults to 'identity', a statistical transformation to be applied to the data
 #' @param na.rm whether to remove NAs from the data.  Defaults to FALSE
-#' @param x the dates for the timeline
-#' @param y factor for timeline, each y value creates seperate timeline.  Can cause errors if not at least set to 0 in aes
-#' @param colour what var to use to determine quake colour
-#' @param size how large to make each quake circle on the timeline
+#' @note aesthetics: x: dates for timeline; y: factor for timeline; colour: var for color; size: var for how large to make quakes on timeline
 #' @return a timeline with points representing quakes
 #' @export
 #' @importFrom ggplot2 layer
@@ -62,20 +59,6 @@ geom_timeline <- function(mapping = NULL, data = NULL, stat = 'identity',
 
 ############ TIMELINE LABEL ####
 
-#' geom_timeline_label
-#' @description creates labels for geom_timeline.  Goes with ggproto GeomTimelineLabel
-#' @param stat argument for calling ggplot2::layer, defaults to 'identity', a statistical transformation to be applied to the data
-#' @param na.rm whether to remove NAs from the data.  Defaults to FALSE
-#' @param x the dates for the timeline
-#' @param y factor for timeline, each y value creates seperate timeline.  Can cause errors if not at least set to 0 in aes
-#' @param labels how to label different quakes.  Defaults to ""
-#' @param size how large the quakes are.  Used with n_max to determine which quakes to label first
-#' @param n_size how many quakes to label.  Largest quakes are labeled first-otherwise random
-#' @return a graphical value containing labels and line-segments
-#' @export
-#' @importFrom ggplot2 layer
-#' @importFrom grid textGrob
-#' @importFrom grid segmentsGrob
 
 GeomTimelineLabel <- ggproto("GeomTimelineLabel", Geom,
                              required_aes = c('x'),
@@ -91,11 +74,21 @@ GeomTimelineLabel <- ggproto("GeomTimelineLabel", Geom,
                                segLength <- 1 / (5*(1 + max(coords$y, na.rm = TRUE)))
                                seg <- grid::segmentsGrob(x0 = coords$x, x1 = coords$x, y0 = coords$y, y1 = coords$y + segLength, default.units='npc')
                                t <- grid::textGrob(label = coords$label, x = coords$x, y = coords$y + segLength, just = 'left', rot = 45, default.units = 'npc')
-                               rValue<- gTree(children = gList(seg, t))
+                               rValue<- grid::gTree(children = grid::gList(seg, t))
                                return(rValue)
                              })
 
-
+#' geom_timeline_label
+#' @description creates labels for geom_timeline.  Goes with ggproto GeomTimelineLabel
+#' @param stat argument for calling ggplot2::layer, defaults to 'identity', a statistical transformation to be applied to the data
+#' @param na.rm whether to remove NAs from the data.  Defaults to FALSE
+#' @param data,mapping,position,show.legend,inherit.aes,... additional arguments for geom creation
+#' @note aesthetics: x: dates for timeline; y: factor for multiple timelines; labels: labels to place; n_max: max number of labels--in order of size or random if size not included
+#' @return a graphical value containing labels and line-segments
+#' @export
+#' @importFrom ggplot2 layer
+#' @importFrom grid textGrob
+#' @importFrom grid segmentsGrob
 geom_timeline_label <- function(mapping = NULL, data = NULL, stat = 'identity',
                                 position = 'identity', na.rm = FALSE,
                                 show.legend = NA, inherit.aes = TRUE, ...) {

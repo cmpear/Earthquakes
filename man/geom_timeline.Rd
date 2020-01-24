@@ -58,18 +58,13 @@ the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
 often aesthetics, used to set an aesthetic to a fixed value, like
 \code{colour = "red"} or \code{size = 3}. They may also be parameters
 to the paired geom/stat.}
-
-\item{x}{the dates for the timeline}
-
-\item{y}{factor for timeline, each y value creates seperate timeline.  Can cause errors if not at least set to 0 in aes}
-
-\item{colour}{what var to use to determine quake colour}
-
-\item{size}{how large to make each quake circle on the timeline}
 }
 \value{
 a timeline with points representing quakes
 }
 \description{
 creates a timeline from quake data.  Goes wtih ggproto GeomTimeline
+}
+\note{
+aesthetics: x: dates for timeline; y: factor for timeline; colour: var for color; size: var for how large to make quakes on timeline
 }

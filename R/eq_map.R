@@ -7,6 +7,7 @@
 #' @importFrom leaflet addCircleMarkers
 #' @importFrom dplyr mutate
 #' @importFrom dplyr filter
+#' @import tidyr
 #' @export
 #' @return a map (using leaflet) with the appropriate quake locations
 
