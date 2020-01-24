@@ -8,4 +8,5 @@ test_that("Checking whether map files are working", {
     Earthquakes::eq_map(annot_col = "DATE")
   testthat::expect_s3_class(m, 'leaflet')
   testthat::expect_s3_class(m, 'htmlwidget')
+  testthat::expect_identical(Earthquakes:::Bold('howdy'),'<b>howdy</b>')
 })
