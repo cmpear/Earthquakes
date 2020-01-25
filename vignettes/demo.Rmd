@@ -26,19 +26,19 @@ This package is designed to assist in analyzing and vizualizing earthquake data 
   The eq_get_data() combins all three of the above functions--but again, all are already included as tremors.rda.
 
 
-```{r look at builtin tremors dataset}
+```{r look_at_builtin_tremors_dataset}
 head(tremors)
 ```
-```{r retrieve raw data}
+```{r retrieve_raw_data}
 Earthquakes::eq_get_data_raw() %>% head()
 ```
-```{r retrieve and clean data}
+```{r retrieve_and_clean_data}
 Earthquakes::eq_get_data_raw() %>%
   Earthquakes::eq_clean_data() %>%
   Earthquakes::eq_location_clean() %>%
   head()
 ```
-```{r use single function to do same task}
+```{r use_single_function_to_do_same_task}
 Earthquakes::eq_get_data() %>%
   head()
 ```
@@ -47,7 +47,7 @@ Earthquakes::eq_get_data() %>%
   Three new geoms for use wtih ggplot2 are included.  The first two are geom_timeline() and geom_timeline_labels, which respectively build a timeline with quake data and add labels to it.  Aethetics can be set so that color and size vary with such variables as INTENSITY and TOTAL_DAMAGE_MILLSIONS_DOLLARS.  With geom_timeline_label() one can add an additional aesthetic, n_max, which limits how many labels to include.
   The third geom is for geospatial mapping
   
-```{r display geomtimeline}
+```{r display_geomtimeline}
 tremors %>% 
   dplyr::filter(YEAR >=2000 ) %>%
   dplyr::filter(COUNTRY %in% c('CANADA','MEXICO', 'JAPAN')) %>%
@@ -56,7 +56,7 @@ tremors %>%
   ggplot(aes(x = DATE, y = COUNTRY, size = EQ_PRIMARY, col = DEATHS)) + geom_timeline()
 ```
 
-```{r display geomtimeline w/ labels}
+```{r display_geomtimeline_w_labels}
 tremors %>% 
   dplyr::filter(YEAR >= 2000 ) %>%
   dplyr::filter(COUNTRY %in% c('CHINA','JAPAN','KOREA')) %>%
@@ -65,7 +65,7 @@ tremors %>%
   ggplot(aes(x = DATE, y = COUNTRY, labels = LOCATION_NAME, size = EQ_PRIMARY, col = DEATHS, n_max = 4)) + Earthquakes::geom_timeline() + Earthquakes:::geom_timeline_label()
 ```
 
-```{r display eq_map visualization}
+```{r display_eq_map_visualization}
 m<-tremors %>%
 dplyr::select(COUNTRY, LATITUDE, LONGITUDE, EQ_PRIMARY, DATE, YEAR, DEATHS) %>%
 dplyr::filter(COUNTRY == "MEXICO", YEAR >= 2000) %>%
