@@ -1,6 +1,6 @@
 # Earthquakes
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.org/cmpear/Earthquakes.svg?branch=master)](https://travis-ci.org/cmpear/Earthquakes)
+[![Travis build status](https://travis-ci.com/cmpear/Earthquakes.svg?branch=master)](https://travis-ci.org/cmpear/Earthquakes)
 <!-- badges: end -->
 This package is built for retrieving, cleaning, analyzing and visualizing earthquake data gathered by the National Oceanic and Atmospheric Administration.  Presenting this package does three things:
 # Retrieve and Clean Data
