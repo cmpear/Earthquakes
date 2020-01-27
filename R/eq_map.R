@@ -7,6 +7,7 @@
 #' @importFrom leaflet addCircleMarkers
 #' @importFrom dplyr mutate
 #' @importFrom dplyr filter
+#' @importFrom rlang .data
 #' @import tidyr
 #' @export
 #' @return a map (using leaflet) with the appropriate quake locations
@@ -21,14 +22,14 @@ eq_map <- function(data, annot_col = NA){
   if (annot_col == 'popup_text')
   {
     data<-data %>%
-      dplyr::mutate(POPUP = paste(paste("<b>DATE:</b>",DATE),
-                           paste("<b>MAGNITUDE:</b>",EQ_PRIMARY),
-                           paste("<b>TOTAL DEATHS:</b>",DEATHS),
+      dplyr::mutate("POPUP" = paste(paste("<b>DATE:</b>",.data$DATE),
+                           paste("<b>MAGNITUDE:</b>",.data$EQ_PRIMARY),
+                           paste("<b>TOTAL DEATHS:</b>",.data$DEATHS),
                            sep = '<br/>')  )
   }
   else if (annot_col == 'DATE'){
     data <-data%>%
-      dplyr::mutate(POPUP = paste(Bold(annot_col),DATE, sep = ': '))
+      dplyr::mutate("POPUP" = paste(Bold(annot_col),.data$DATE, sep = ': '))
   }
   m <- leaflet::leaflet() %>%
     leaflet::addTiles() %>%

@@ -80,6 +80,7 @@ eq_get_data_raw <- function(){
 #' @importFrom dplyr select
 #' @importFrom lubridate ymd
 #' @importFrom lubridate years
+#' @importFrom rlang .data
 #' @examples
 #' data <- Earthquakes::eq_get_data_raw() %>%
 #'   Earthquakes::eq_clean_data() %>%
@@ -87,22 +88,22 @@ eq_get_data_raw <- function(){
 eq_clean_data <- function(data){
 
   data %>%
-    dplyr::mutate(ADJUST_YEAR = ifelse(YEAR<1000,
-                                       ifelse(YEAR<0,
-                                              ifelse(YEAR< -1000, YEAR * -2, 1000 + YEAR * -2)
+    dplyr::mutate("ADJUST_YEAR" = ifelse(.data$YEAR<1000,
+                                       ifelse(.data$YEAR<0,
+                                              ifelse(.data$YEAR< -1000, .data$YEAR * -2, 1000 + .data$YEAR * -2)
                                               ,1000)
                                        ,0) ) %>%
-    dplyr::mutate(DATE = YEAR + ADJUST_YEAR) %>%
-    dplyr::mutate(MONTH = ifelse(is.na(MONTH),1,MONTH)) %>%
-    dplyr::mutate(DAY = ifelse(is.na(DAY),1,DAY)) %>%
-    dplyr::mutate(DATE = paste(DATE, MONTH, DAY)) %>%
-    dplyr::mutate(DATE = lubridate::ymd(DATE)) %>%
-    dplyr::select(I_D, FLAG_TSUNAMI, DATE, everything()) %>%
-    dplyr::mutate(ADJUST_YEAR = lubridate::years(ADJUST_YEAR)) %>%
-    dplyr::mutate(DATE = DATE - ADJUST_YEAR) %>%
-    dplyr::select(-ADJUST_YEAR) %>%
-    dplyr::mutate(LATITUDE = as.numeric(LATITUDE)) %>%
-    dplyr::mutate(LONGITUDE = as.numeric(LONGITUDE)) %>%
+    dplyr::mutate("DATE" = .data$YEAR + .data$ADJUST_YEAR) %>%
+    dplyr::mutate("MONTH" = ifelse(is.na(.data$MONTH),1,.data$MONTH)) %>%
+    dplyr::mutate("DAY" = ifelse(is.na(.data$DAY),1,.data$DAY)) %>%
+    dplyr::mutate("DATE" = paste(.data$DATE, .data$MONTH, .data$DAY)) %>%
+    dplyr::mutate("DATE" = lubridate::ymd(.data$DATE)) %>%
+    dplyr::select("I_D", "FLAG_TSUNAMI", "DATE", everything()) %>%
+    dplyr::mutate("ADJUST_YEAR" = lubridate::years(.data$ADJUST_YEAR)) %>%
+    dplyr::mutate("DATE" = .data$DATE - .data$ADJUST_YEAR) %>%
+    dplyr::select(-"ADJUST_YEAR") %>%
+    dplyr::mutate("LATITUDE" = as.numeric(.data$LATITUDE)) %>%
+    dplyr::mutate("LONGITUDE" = as.numeric(.data$LONGITUDE)) %>%
     return()
 }
 
@@ -112,6 +113,7 @@ eq_clean_data <- function(data){
 #' @param data quake data--designed for builtin dataset
 #' @export
 #' @importFrom dplyr mutate
+#' @importFrom rlang .data
 #' @import tidyr
 #' @return quake data with cleaned location names
 #' @examples
@@ -120,7 +122,7 @@ eq_clean_data <- function(data){
 #'   Earthquakes::eq_location_clean()
 eq_location_clean <- function(data){
   data %>%
-    mutate(LOCATION_NAME = RemoveBefore(LOCATION_NAME, ':')) %>%
+    mutate("LOCATION_NAME" = RemoveBefore(.data$LOCATION_NAME, ':')) %>%
     return()
 }
 
